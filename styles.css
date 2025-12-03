@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #000000;
+  --text: #eaeaea;
+  --accent: #f9c74f;
+  --card: #1a1a1e;
+  --hover: #2c2c31;
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  padding: 2rem;
+}
+
+.bg-animation {
+  position: fixed;
+  inset: 0;
+  background-color: #121212;
+  background-image:
+    linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -5; /* выше карусели, но всё равно под контейнером */
+  opacity: 1;
+  pointer-events: none;
+}
+
+.container {
+  position: relative; /* чтобы z-index сработал */
+  max-width: 900px;
+  margin: auto;
+  background: var(--card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  z-index: 1; /* выше всего */
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+}
+
+.btn {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  background: var(--accent);
+  color: #000000;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+  cursor: pointer;
+}
+.btn {
+  background: #246caf;
+  transform: scale(1.05);
+}
+
+.btn-1 {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.8rem 0.6rem;
+  background: var(--accent);
+  color: #000000;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+  cursor: pointer;
+}
+.btn-1 {
+  background: #d84242;
+  transform: scale(1.05);
+}
+
+/* Карусель */
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+  gap: 1rem;
+  animation: scroll-loop 20s linear infinite;
+}
+
+@keyframes scroll-loop {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* Карусель на фоне с вертикальным зигзагом и прозрачностью */
+.carousel-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;           /* ниже контейнера (у контейнера z-index:1) */
+  overflow: hidden;
+  opacity: 0.5;         /* прозрачность */
+  pointer-events: none; /* чтобы не мешала кликам */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-5deg);      /* наклон */
+  transform-origin: center center;
+}
+
+.carousel-bg img {
+  height: auto;
+  max-height: 400px;
+  width: auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  filter: brightness(0.9);
+}
+
+.carousel-bg .carousel-track {
+  position: relative;
+}
+
+.carousel-bg .carousel-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+}
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background-color: #1a1a1e;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  color: var(--text);
+  line-height: 1.6;
+  position: relative;
+}
+
+.close {
+  color: #ccc;
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover {
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.neon-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  color: #ffe8b2;
+  text-shadow:
+    0 0 5px #f9c74f,
+    0 0 10px #f9c74f,
+    0 0 20px #f9c74f,
+    0 0 30px #f9844a;
+  animation: neon-glow 2.5s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes neon-glow {
+  0%, 100% {
+    text-shadow:
+      0 0 5px #ff9e28,
+      0 0 10px #ff9e28,
+      0 0 20px #ff9e28,
+      0 0 30px #f9844a;
+  }
+  50% {
+    text-shadow:
+      0 0 3px #f9c74f,
+      0 0 6px #f9c74f,
+      0 0 12px #f9c74f,
+      0 0 20px #f9844a;
+  }
+}
