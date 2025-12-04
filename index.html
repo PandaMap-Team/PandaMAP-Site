@@ -1,89 +1,158 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
-<head>
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PandaMAP</title>
-  
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  
-  <link rel="icon" type="image/png" href="images/favicon.png" sizes="512x512">
-  <link rel="icon" type="image/x-icon" sizes="32x32" href="images/favicon-32x32.ico">
-  <link rel="icon" type="image/x-icon" sizes="16x16" href="images/favicon-16x16.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.ico">
-  
-</head>
-  
-<body>
-  <script src="https://static.elfsight.com/platform/platform.js" async></script>
-  <div class="elfsight-app-b098d804-b55d-4107-86a9-5235ce6ffaa1" data-elfsight-app-lazy></div>
-  <div class="carousel-bg">
-    <div class="carousel-track">
-      <img src="images/map1.jpg" alt="Карта 1" />
-      <img src="images/map2.jpg" alt="Карта 2" />
-      <img src="images/map3.jpg" alt="Карта 3" />
-      <img src="images/map1.jpg" alt="Карта 1 копия" />
-      <img src="images/map2.jpg" alt="Карта 2 копия" />
-      <img src="images/map3.jpg" alt="Карта 3 копия" />
-      <img src="images/map1.jpg" alt="Карта 1 2" />
-      <img src="images/map2.jpg" alt="Карта 2 2" />
-      <img src="images/map3.jpg" alt="Карта 3 2" />
-      <img src="images/map1.jpg" alt="Карта 1 копия 2" />
-      <img src="images/map2.jpg" alt="Карта 2 копия 2" />
-      <img src="images/map3.jpg" alt="Карта 3 копия 2" />
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="PandaMAP">
+    <meta name="keywords" content="PandaMAP, DDNet, Teeworlds">
+    <meta name="theme-color" content="#EFF3F4">
+    <title>PandaMAP</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="tee-skin-renderer.css">
+    <link rel="stylesheet" href="styles.css">
+
+
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="512x512">
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="images/favicon-32x32.ico">
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="images/favicon-16x16.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.ico">
+  </head>
+
+  <body class="has-navbar-fixed-top">
+
+    <svg class="svg-filters" xmlns="http://www.w3.org/2000/svg"
+       style="position:fixed; inset:0; width:0; height:0; pointer-events:none; visibility:hidden;">
+    <defs>
+      <!-- один фильтр, тот что с ↖️ -->
+      <filter id="card-warp" color-interpolation-filters="sRGB"
+              x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="1" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="6s"
+                   repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="1" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="6s"
+                   repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise3" seed="2" />
+        <feOffset in="noise3" dx="0" dy="0" result="offsetNoise3">
+          <animate attributeName="dx" values="490; 0" dur="6s"
+                   repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise4" seed="2" />
+        <feOffset in="noise4" dx="0" dy="0" result="offsetNoise4">
+          <animate attributeName="dx" values="0; -490" dur="6s"
+                   repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise"
+                           scale="30" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+
+    <div id="game-wrapper">
+      <table id="game"></table>
+      <div id="overlay"></div>
     </div>
-  </div>
-  <div class="bg-animation"></div>
-  <div class="container">
-    <header>
-      <h1 class="neon-title">PandaℳAP <span id="particles"></span></h1>
-      <p class="subtitle">Ламповый клан по DDNet / Teeworlds</p>
-      <a class="btn-1" onclick="document.getElementById('rules-modal').style.display='block'">Правила клана</a>
-      <a class="btn" href="https://discord.gg/5gVcbGCxd3" target="_blank">Discord</a>
-    </header>
-    <footer>
-      <p>&copy; 2025 PandaMAP — сделано с любовью к Teeworlds и DDNet</p>
-    </footer>
-  </div>
-  <div id="rules-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="document.getElementById('rules-modal').style.display='none'">&times;</span>
-      <h2>🐼 Правила клана</h2>
-      <br>
-      <hr>
-      <br>
-      <p>Здесь нет лишнего: только то, что помогает держать порядок<br>
-      Ознакомься, соблюдай, и не задавай глупых вопросов потом<br>
-      Нарушаешь: получаешь предупреждение или кик<br>
-      Ниже: категории и пункты<br>
-      Прочёл: Молодец<br>
-      Пропустил: твои проблемы.</p>
-      <br>
-      <hr>
-      <br>
-      <h3>1 Взаимоуважение</h3>
-      <br>
-      <p>1.1 Держите уважение и дружбу: без токсичности и срача (спам, флуд, неадекват)<br>
-      1.2 Не унижай своих ни в чате, ни публично, ни в игре (лучше решать словами)</p>
-      <br>
-      <h3>2 Активность и участие</h3>
-      <br>
-      <p>2.1 Активно играй и участвуй в прохождении карт вместе с кланом<br>
-      2.2 Помогай новым и слабым членам проходить сложные карты<br>
-      2.3 Не играешь и не актив в клане — кик (Срок до 2 месяцев максимум)</p>
-      <br>
-      <h3>3 Идентификация и участие</h3>
-      <br>
-      <p>3.1 Играть без клан тега запрещено! (менять можно только с согласием зама)<br>
-      3.2 Запрещено быть в нескольких кланах одновременно</p>
-      <br>
-      <h3>4 Поведение в игре</h3>
-      <br>
-      <p>4.1 Не позорь клан своим поведением (не блокай, не оскорбляй)<br>
-      4.2 Помогай тиммейтам, играй чаще с сокланами</p>
-    </div>
-  </div>
-</body>
+
+    <main id="top">
+      <section class="section">
+        <div class="container">
+          <div class="has-text-centered" style="margin-bottom: 2rem;">
+            <div class="theme-image theme-image-dark" aria-label="Добро пожаловать в PandaMAP"></div>
+          </div>            
+          <div class="columns is-variable is-6">
+            <div class="column">
+              <div class="card unique-card">
+                <div class="card-content">
+                  <h1 class="title is-2 has-text-centered">PandaMAP</h1>
+                  <div class="content">
+                    <p>Ламповый клан по DDNet 🐼 Проходим карты.</p>
+                    <p>Ставим тайм и собираем совместные воспоминания.</p>
+                    <p>У нас хорошая компания, дружеская атмосфера.</p>
+                    <p>Любишь мапы и ламповый вайб?</p>
+                    <center><p>-=-=-=-=-=-=-=-</p></center>
+                    <div class="has-text-centered">
+                      <img src="static/img/unique.png" alt="PandaMAP" style="padding-top: 10px;">
+                    </div>
+                    <center><p>-=-=-=-=-=-=-=-</p></center>
+                    <p> </p>
+                    <p>- Чтобы вступить в клан киньте заявку в Discord'е клана</p>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  
+                  <p class="card-footer-item">
+                    <a href="https://github.com/unique-clan" target="_blank" rel="noopener noreferrer">
+                      <img src="static/img/github-logo.png" alt="GitHub">
+                    </a>
+                  <p class="card-footer-item">
+                    <a href="https://discord.gg/cgJJ2eqgTQ" target="_blank" rel="noopener noreferrer">
+                      <img src="static/img/discord-logo.png" alt="Discord">
+                    </a>
+                  </p>
+                  </p>
+                  <p class="card-footer-item">
+                    <a href="https://github.com/unique-clan" target="_blank" rel="noopener noreferrer">
+                      <img src="static/img/clanskin-download.png" alt="Download">
+                    </a>
+                  </p>
+                </footer>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="card unique-card">
+                <div class="card-content">
+                  <h1 class="title is-2 has-text-centered">Немного про клан</h1>
+                  <div class="content">
+                    <p><span class="icon icon-spacer"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></span>Регулярно играем мапы и сидим в войсе клана!</p>
+                    <p><span class="icon icon-spacer"><i class="fas fa-stopwatch" aria-hidden="true"></i></span>Любим делать т0 раны, и спидранить карты.</p>
+                    <p><span class="icon icon-spacer"><i class="fas fa-trophy" aria-hidden="true"></i></span>Много игроков с высоким количеством поинтов!</p>
+                    <p><span class="icon icon-spacer"><i class="fas fa-coins" aria-hidden="true"></i></span>Личный бот для клана с крутыми фишками и экономикой.</p>
+                    <p><span class="icon icon-spacer"><i class="fas fa-gamepad" aria-hidden="true"></i></span>Набираем игроков от 1500+ птс(Значение всегда меняется)</p>
+                      <center><p>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-</p></center>
+                      <div class="responsive-video">
+                        <iframe src="https://www.youtube.com/embed/R3lyf9Vp0Tc?si=ieZ_EbYrRYYqoalG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clan-leaders">
+                      <div class="leader-card">
+                        <p class="leader-role">Глава клана</p>
+                        <p class="leader-name">m09l6d0ur13ii</p>
+                        <div class="tee" data-skin="skins/skin.png" data-color-body="5332736" data-color-feet="65535"></div>
+                      </div>
+                      <div class="leader-card">
+                        <p class="leader-role">Зам клана</p>
+                        <p class="leader-name">Saimer</p>
+                        <div class="tee" data-skin="skins/glow_cammo.png" data-color-body="6357224" data-color-feet="5014847"></div>
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/live.js"></script>
+    <script type="module" src="static/js/tee-skin-renderer.es.js"></script>
+    <script src="static/js/eyes.js"></script>
+    <script src="static/js/script.js"></script>
+  </body>
 </html>

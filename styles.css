@@ -1,241 +1,222 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 
+/* Theme tokens */
 :root {
-  --bg: #000000;
-  --text: #eaeaea;
-  --accent: #f9c74f;
-  --card: #1a1a1e;
-  --hover: #2c2c31;
-  --radius: 16px;
-  --transition: 0.3s ease;
+  --background-color: #0b0d10;
+  --text-color: #f5f5f5;
+  --card-background: #1f2329;
+  --accent: #c68b25;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Global styles */
+html,
+body {
+  background: var(--background-color);
+  color: var(--text-color);
 }
 
 body {
-  font-family: 'JetBrains Mono', monospace;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-  padding: 2rem;
+  font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.bg-animation {
-  position: fixed;
-  inset: 0;
-  background-color: #121212;
-  background-image:
-    linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 20px 20px;
-  z-index: -5; /* выше карусели, но всё равно под контейнером */
-  opacity: 1;
-  pointer-events: none;
+/* Убираем стандартный отступ Bulma для фиксированного navbar */
+body.has-navbar-fixed-top {
+  padding-top: 0 !important;
 }
 
-.container {
-  position: relative; /* чтобы z-index сработал */
-  max-width: 900px;
-  margin: auto;
-  background: var(--card);
-  padding: 2rem;
-  border-radius: var(--radius);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  z-index: 1; /* выше всего */
-}
-
-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-h1 {
-  font-size: 3rem;
+a {
   color: var(--accent);
-  margin-bottom: 0.5rem;
 }
 
-.subtitle {
-  font-size: 1.1rem;
-  color: #aaa;
+a:hover {
+  color: #ffa500;
 }
 
-.btn {
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.8rem 1.6rem;
-  background: var(--accent);
-  color: #000000;
-  font-weight: bold;
-  text-decoration: none;
-  border: none;
-  border-radius: var(--radius);
-  transition: background var(--transition), transform var(--transition);
-  cursor: pointer;
-}
-.btn {
-  background: #246caf;
-  transform: scale(1.05);
-}
-
-.btn-1 {
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.8rem 0.6rem;
-  background: var(--accent);
-  color: #000000;
-  font-weight: bold;
-  text-decoration: none;
-  border: none;
-  border-radius: var(--radius);
-  transition: background var(--transition), transform var(--transition);
-  cursor: pointer;
-}
-.btn-1 {
-  background: #d84242;
-  transform: scale(1.05);
-}
-
-/* Карусель */
-.carousel {
-  position: relative;
+/* Logo above cards */
+.theme-image {
+  display: block;
   width: 100%;
-  overflow: hidden;
-  border-radius: var(--radius);
-  margin-bottom: 2rem;
+  max-width: 840px;
+  height: 400px;
+  margin: 0 auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
 }
 
-.carousel-track {
-  display: flex;
-  width: fit-content;
-  gap: 1rem;
-  animation: scroll-loop 20s linear infinite;
-}
-
-@keyframes scroll-loop {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-
-/* Карусель на фоне с вертикальным зигзагом и прозрачностью */
-.carousel-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;           /* ниже контейнера (у контейнера z-index:1) */
-  overflow: hidden;
-  opacity: 0.5;         /* прозрачность */
-  pointer-events: none; /* чтобы не мешала кликам */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(-5deg);      /* наклон */
-  transform-origin: center center;
-}
-
-.carousel-bg img {
-  height: auto;
-  max-height: 400px;
-  width: auto;
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-  filter: brightness(0.9);
-}
-
-.carousel-bg .carousel-track {
-  position: relative;
-}
-
-.carousel-bg .carousel-track::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-}
-
-/* Модальное окно */
-.modal {
+.theme-image-light {
   display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
+}
+
+.theme-image-dark {
+  background-image: url("static/img/st.png");
+}
+
+/* Cards */
+.card.unique-card {
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  background: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-.modal-content {
-  background-color: #1a1a1e;
-  margin: 5% auto;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 700px;
-  color: var(--text);
-  line-height: 1.6;
-  position: relative;
+.card.unique-card .card-content {
+  padding: 1.75rem;
 }
 
-.close {
-  color: #ccc;
-  position: absolute;
-  top: 1rem;
-  right: 1.2rem;
-  font-size: 35px;
-  font-weight: bold;
-  cursor: pointer;
+.card.unique-card .card-footer {
+  margin-top: auto;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
-.close:hover {
+
+.card.unique-card .title {
   color: #fff;
 }
 
-footer {
-  text-align: center;
-  margin-top: 2rem;
-  color: #777;
-  font-size: 0.9rem;
+.card.unique-card a {
+  color: var(--accent);
 }
 
-.neon-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 3rem;
-  color: #ffe8b2;
-  text-shadow:
-    0 0 5px #f9c74f,
-    0 0 10px #f9c74f,
-    0 0 20px #f9c74f,
-    0 0 30px #f9844a;
-  animation: neon-glow 2.5s ease-in-out infinite;
+.card.unique-card a:hover {
+  color: #ffa500;
+}
+
+/* Icon spacing */
+.icon-spacer {
+  margin-right: 0.65rem;
+}
+
+/* Anchor offset */
+.rank-anchor {
+  display: block;
   position: relative;
+  top: -70px;
+  visibility: hidden;
 }
 
-@keyframes neon-glow {
-  0%, 100% {
-    text-shadow:
-      0 0 5px #ff9e28,
-      0 0 10px #ff9e28,
-      0 0 20px #ff9e28,
-      0 0 30px #f9844a;
+/* Background grid */
+#game-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  filter: blur(4px);
+}
+
+header,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+#game {
+  margin: auto;
+  border-collapse: collapse;
+  pointer-events: none;
+}
+
+#game .cell {
+  width: 10px;
+  height: 10px;
+}
+
+#game .cell.alive {
+  background-color: #1e6842;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: auto;
+}
+
+/* Layout spacing */
+main {
+  padding-bottom: 0;
+}
+
+.section:first-of-type {
+  padding-top: 1rem;
+}
+
+/* Clan leaders row */
+.clan-leaders {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.leader-card {
+  text-align: center;
+}
+
+.leader-role {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.leader-name {
+  margin-bottom: 0.5rem;
+}
+
+/* Mobile tweaks */
+@media screen and (max-width: 768px) {
+  .theme-image {
+    max-width: 100%;
+    height: 240px;
   }
-  50% {
-    text-shadow:
-      0 0 3px #f9c74f,
-      0 0 6px #f9c74f,
-      0 0 12px #f9c74f,
-      0 0 20px #f9844a;
+
+  .card.unique-card .card-content {
+    padding: 1.25rem;
   }
+
+  .clan-hero {
+    gap: 0.75rem;
+  }
+
+  .leader-card.small .tee {
+    font-size: 0.45px;
+  }
+
+  .logo-center img {
+    max-width: 160px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .theme-image {
+    height: 180px;
+  }
+
+  .clan-hero {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .leader-card.small .tee {
+    font-size: 0.38px;
+  }
+}
+
+.responsive-video {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+}
+
+.responsive-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
